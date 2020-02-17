@@ -27,7 +27,7 @@ object BostonCrimesMap extends App {
   import spark.implicits._
   import org.apache.spark.sql.functions.broadcast
 
-  val offenseCodesBroadcast = broadcast(offenseCodes)
+  val offenseCodesBroadcast = broadcast(offenseCodes.dropDuplicates("CODE"))
 
   val crimesMain = crimes
     .join(offenseCodesBroadcast, $"CODE" === $"OFFENSE_CODE")
