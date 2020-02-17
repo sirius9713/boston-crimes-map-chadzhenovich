@@ -62,7 +62,7 @@ object BostonCrimesMap extends App {
   crimesMain.createOrReplaceTempView("crimesSql")
 
   val crimesMean = spark
-    .sql("select t.DISTRICT, percentile_approx(t.cnt,0.5) as crimes_monthly from (select DISTRICT, count(*) cnt from crimesSql group by DISTRICT, MONTH) t group by t.district order by t.district")
+    .sql("select t.DISTRICT, percentile_approx(t.cnt,0.5) as crimes_monthly from (select DISTRICT, count(*) cnt from crimesSql group by DISTRICT, YEAR, MONTH) t group by t.district order by t.district")
     .na.fill("00", Seq("DISTRICT"))
     .withColumnRenamed("DISTRICT", "DISTRICT_2")
 
